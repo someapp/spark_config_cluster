@@ -25,12 +25,9 @@ start_link() ->
     	 ?MODULE, []).
 
 start_link(Args) ->
-%	start_app(application:start(sasl)),
-%	start_app(application:start(os_mon)),
-%	start_app(application:start(appmon)),
-	application:start(sasl),
-	application:start(os_mon),
-	application:start(appmon),
+	start_app(application:start(sasl)),
+	start_app(application:start(os_mon)),
+	start_app(application:start(appmon)),
 	ok.
 
 stop()->
@@ -47,27 +44,27 @@ init(Args) ->
 	Children = [],
     {ok, { {one_for_one, 5, 10}, Children}}.
 
-ensure_start_app(ok)->
+start_app(ok)->
 	ok;
-ensure_start_app({error, {already_started, App})
+start_app({error, {already_started, App}})
 		when is_atom(App) ->
 	ok;
-ensure_start_app({error, {Reason, App}}) ->
+start_app({error, {Reason, App}}) ->
 		when is_atom(App) ->
 	{error, {Reason, App}};
-ensure_start_app({E, {Reason, App}}) ->
+start_app({E, {Reason, App}}) ->
 	{E, {Reason, App}};
-ensure_start_app(_)-> {error, badarg}.
+start_app(_)-> {error, badarg}.
 
-ensure_stop_app(ok)->
+stop_app(ok)->
 	ok;
-ensure_stop_app({error,{not_started,App}})
+stop_app({error,{not_started,App}})
 		when is_atom(App)->
 	ok;
-ensure_stop_app({error, {Reason, App}}) ->
+stop_app({error, {Reason, App}}) ->
 		when is_atom(App) ->
 	{error, {Reason, App}};
-ensure_stop_app({E, {Reason, App}}) ->
+stop_app({E, {Reason, App}}) ->
 	{E, {Reason, App}};
-ensure_stop_app(_)-> {error, badarg}.
+stop_app(_)-> {error, badarg}.
 
