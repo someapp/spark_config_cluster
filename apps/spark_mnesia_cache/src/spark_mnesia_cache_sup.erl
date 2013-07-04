@@ -4,7 +4,9 @@
 -behaviour(supervisor).
 
 %% API
--export([start_link/0]).
+-export([start_link/0,
+		 start_link/1,
+		 stop/0]).
 
 %% Supervisor callbacks
 -export([init/1]).
@@ -19,6 +21,17 @@
 start_link() ->
     supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
+start_link(Args) ->
+	start_app(application:start(sasl)),
+	start_app(application:start(os_mon)),
+	start_app(application:start(appmon)),
+	.
+
+stop()->
+	stop_app(application:stop(appmon)),
+	stop_app(application:stop(os_mon)),
+	stop_app(application:stop(sasl)),
+	ok.
 %% ===================================================================
 %% Supervisor callbacks
 %% ===================================================================
@@ -30,7 +43,7 @@ init(Args) ->
 
 start_app(ok)->
 	ok;
-start_app({error, {already_started, App}}
+start_app({error, {already_started, App})
 		when is_atom(App) ->
 	ok;
 start_app({error, {Reason, App}}) ->

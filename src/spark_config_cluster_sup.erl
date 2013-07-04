@@ -4,7 +4,9 @@
 -behaviour(supervisor).
 
 %% API
--export([start_link/0]).
+-export([start_link/0,
+		 start_link/1,
+		 stop/0]).
 
 %% Supervisor callbacks
 -export([init/1]).
@@ -47,7 +49,7 @@ init(Args) ->
 
 start_app(ok)->
 	ok;
-start_app({error, {already_started, App}}
+start_app({error, {already_started, App}})
 		when is_atom(App) ->
 	ok;
 start_app({error, {Reason, App}}) ->
