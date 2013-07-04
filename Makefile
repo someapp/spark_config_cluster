@@ -40,18 +40,18 @@ Beehive code generated in `pwd`/rel/${PACKAGE_NAME}\n\
 To use git commit hooks properly, set the following value.\n\n\
 code_root: `pwd`/rel/beehive\n\
 \n\
-This should be set in a beehive config file, found at\n\
-~/.beehive.conf or /etc/beehive.conf.  See docs for more info.\
+This should be set in a ${PACKAGE_NAME} config file, found at\n\
+~/.${PACKAGE_NAME}.conf or /etc/${PACKAGE_NAME}.conf.  See docs for more info.\
 \n\n\
 This value will need to always reflect the current root of\n\
-your beehive release.  Otherwise git commit hooks won't know\n\
+your ${PACKAGE_NAME} release.  Otherwise git commit hooks won't know\n\
 where to find scripts to trigger app actions.\n\
 *----------------------------------------------------------*"
 
 GIT_REPOS_DIR=~/repositories
-gitolite_setup:
-	@git clone ${GIT_REPOS_DIR}/git_admin rel/beehive/gitolite
-	@cp priv/git/templates/post-receive ~/.git/hooks/post-receive
+#gitolite_setup:
+#	@git clone ${GIT_REPOS_DIR}/git_admin rel/beehive/gitolite
+#	@cp priv/git/templates/post-receive ~/.git/hooks/post-receive
 
 doc:
 	@echo "Generating Documentation"
@@ -60,7 +60,7 @@ doc:
 package:
 	@echo "Making Package"
 	@(mkdir -p ./builds)
-	@(tar -C rel -c beehive | gzip > ./builds/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz)
+	@(tar -C rel -c ${PACKAGE_NAME} | gzip > ./builds/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz)
 
 test:	compile
 	@echo "Running Test" 
