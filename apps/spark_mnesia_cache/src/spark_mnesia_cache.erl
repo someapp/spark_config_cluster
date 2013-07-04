@@ -49,7 +49,7 @@ start()->
   ?APP_START(?SERVER).
 
 stop()->
-  ?APP_STOP(?SERVER).
+  ?APP_STOP(?SERVER),
   ?APP_STOP(lager),
   ?APP_STOP(goldrush),
   ?APP_STOP(compiler),
