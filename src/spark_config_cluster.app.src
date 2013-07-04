@@ -7,6 +7,9 @@
                   kernel,
                   stdlib
                  ]},
+  {modules, [
+
+  ]},
   {mod, { spark_config_cluster_app, []}},
   {env, []}
  ]}.
