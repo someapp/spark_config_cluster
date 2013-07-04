@@ -22,7 +22,33 @@ start_link() ->
 %% ===================================================================
 %% Supervisor callbacks
 %% ===================================================================
+init([])->
+	init([]);
+init(Args) ->
+	Children = [],
+    {ok, { {one_for_one, 5, 10}, Children}}.
 
-init([]) ->
-    {ok, { {one_for_one, 5, 10}, []} }.
+start_app(ok)->
+	ok;
+start_app({error, {already_started, App}}
+		when is_atom(App) ->
+	ok;
+start_app({error, {Reason, App}}) ->
+		when is_atom(App) ->
+	{error, {Reason, App}};
+start_app({E, {Reason, App}}) ->
+	{E, {Reason, App}};
+start_app(_)-> {error, badarg}.
+
+stop_app(ok)->
+	ok;
+stop_app({error,{not_started,App}})
+		when is_atom(App)->
+	ok;
+stop_app({error, {Reason, App}}) ->
+		when is_atom(App) ->
+	{error, {Reason, App}};
+stop_app({E, {Reason, App}}) ->
+	{E, {Reason, App}};
+stop_app(_)-> {error, badarg}.
 

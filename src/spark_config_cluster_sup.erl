@@ -12,12 +12,15 @@
 %% Helper macro for declaring children of supervisor
 -define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).
 
+-define(SERVER, ?MODULE).
+
 %% ===================================================================
 %% API functions
 %% ===================================================================
 
 start_link() ->
-    supervisor:start_link({local, ?MODULE}, ?MODULE, []).
+    supervisor:start_link({local, ?SERVER},
+    	 	?MODULE, []).
 
 start_link(Args) ->
 	start_app(application:start(sasl)),
@@ -33,10 +36,14 @@ stop()->
 %% ===================================================================
 %% Supervisor callbacks
 %% ===================================================================
-
-init([]) ->
-	Children = [] ,
-    {ok, { {one_for_one, 5, 10}, []} }.
+init([])->
+	init([]);
+init(Args) ->
+	Children = lists:flatten([
+		?CHILD(spark_config_cluster_sup, Args),
+		?CHILD(spark_mnesia_cache_sup, Args)		
+		]),
+    {ok, { {one_for_one, 5, 10}, Children}}.
 
 start_app(ok)->
 	ok;
