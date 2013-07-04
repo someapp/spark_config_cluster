@@ -49,7 +49,7 @@ start_app(ok)->
 start_app({error, {already_started, App}})
 		when is_atom(App) ->
 	ok;
-start_app({error, {Reason, App}}) ->
+start_app({error, {Reason, App}}) 
 		when is_atom(App) ->
 	{error, {Reason, App}};
 start_app({E, {Reason, App}}) ->
@@ -61,10 +61,10 @@ stop_app(ok)->
 stop_app({error,{not_started,App}})
 		when is_atom(App)->
 	ok;
-stop_app({error, {Reason, App}}) ->
+stop_app({error, {Reason, App}}) 
 		when is_atom(App) ->
 	{error, {Reason, App}};
-stop_app({E, {Reason, App}}) ->
+stop_app({E, {Reason, App}}) 
 	{E, {Reason, App}};
 stop_app(_)-> {error, badarg}.
 
