@@ -1,0 +1,12 @@
+{application, spark_mnesia_cache,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { spark_mnesia_cache_app, []}},
+  {env, []}
+ ]}.
