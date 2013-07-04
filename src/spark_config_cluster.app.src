@@ -8,6 +8,8 @@
                   stdlib
                  ]},
   {modules, [
+	 spark_config_cluster_app,
+	 spark_config_cluster_sup
 
   ]},
   {mod, { spark_config_cluster_app, []}},
