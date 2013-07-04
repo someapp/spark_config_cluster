@@ -1,0 +1,13 @@
+*~
+*.*~
+.eunit/*
+*.dump
+deps/*
+priv/*
+ebin/*.beam
+ebin/*.app
+doc
+dev
+/package/
+log/
+/log
