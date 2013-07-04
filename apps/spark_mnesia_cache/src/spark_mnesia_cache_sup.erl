@@ -14,18 +14,24 @@
 %% Helper macro for declaring children of supervisor
 -define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).
 
+-define(SERVER,?MODULE).
+
 %% ===================================================================
 %% API functions
 %% ===================================================================
 
 start_link() ->
-    supervisor:start_link({local, ?MODULE}, ?MODULE, []).
+    supervisor:start_link({local, ?SERVER},
+    	 ?MODULE, []).
 
 start_link(Args) ->
-	start_app(application:start(sasl)),
-	start_app(application:start(os_mon)),
-	start_app(application:start(appmon)),
-	.
+%	start_app(application:start(sasl)),
+%	start_app(application:start(os_mon)),
+%	start_app(application:start(appmon)),
+	application:start(sasl),
+	application:start(os_mon),
+	application:start(appmon),
+	ok.
 
 stop()->
 	stop_app(application:stop(appmon)),

@@ -25,7 +25,6 @@ start_link() ->
     	 	?MODULE, []).
 
 start_link(Args) ->
-    application:start(sasl),
 	start_app(application:start(sasl)),
 	start_app(application:start(os_mon)),
 	start_app(application:start(appmon)),
