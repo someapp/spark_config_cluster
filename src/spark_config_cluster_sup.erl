@@ -28,7 +28,7 @@ start_link(Args) ->
 	start_app(application:start(sasl)),
 	start_app(application:start(os_mon)),
 	start_app(application:start(appmon)),
-	.
+	ok.
 
 stop()->
 	stop_app(application:stop(appmon)),
