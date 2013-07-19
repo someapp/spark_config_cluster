@@ -16,18 +16,13 @@
 -include_lib("lager/include/lager.hrl").
 
 -define(SERVER, ?MODULE).
--define(SVRNAME(VSN), list_to_atom(atom_to_list(?SERVER)++VSN).
--define(CONFPATH,"conf").
-
-
--include_lib("lager/include/lager.hrl").
-
--define(SERVER, ?MODULE).
--define(SVRNAME(VSN), list_to_atom(atom_to_list(?SERVER)++VSN).
+-define(SVRNAME(VSN), list_to_atom(atom_to_list(?SERVER)++VSN)).
 -define(CONFPATH,"conf").
 
 -record(state, {
-		conf
+		conf_file = []
 }).
+
+
 
 

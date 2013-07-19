@@ -13,37 +13,50 @@
 
 %% Helper macro for declaring children of supervisor
 -define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).
-
 -define(SERVER, ?MODULE).
+-define(ConfPath,"conf").
+-define(ConfFile, "spark_app.config").
+-define(SERVER, ?MODULE).
+
 
 %% ===================================================================
 %% API functions
 %% ===================================================================
 
 start_link() ->
-    supervisor:start_link({local, ?SERVER},
-    	 	?MODULE, []).
+    start_link([{?ConfPath, ?ConfFile}]).
 
 start_link(Args) ->
-	app_util:start_app(application:start(sasl)),
-	app_util:start_app(application:start(os_mon)),
-	app_util:start_app(application:start(appmon)),
-	ok.
+    error_logger:info_msg("Starting ~p supervisor with args ~p", [?SERVER, Args]),
+	supervisor:start_link({local, ?SERVER},
+    	 	?MODULE, Args).
 
-stop()->
-	app_util:stop_app(application:stop(appmon)),
-	app_util:stop_app(application:stop(os_mon)),
-	app_util:stop_app(application:stop(sasl)),
-	ok.
+
+stop()-> ok.
 %% ===================================================================
 %% Supervisor callbacks
 %% ===================================================================
 init([])->
 	init([]);
 init(Args) ->
+	Apps = [syntax_tools, 
+			compiler, 
+			crypto,
+			public_key,
+			ssl,
+			goldrush, 
+			lager, 
+			parse_trans,
+			json_rec,
+			appmon,
+			os_mon,
+			sasl,
+			mnesia],
+    lists:map(fun(App) -> 
+    			ok = app_util:start_app(App)
+    		  end, Apps),		
 	Children = lists:flatten([
-		?CHILD(spark_config_cluster_sup, Args),
-		?CHILD(spark_mnesia_cache_sup, Args)		
+		?CHILD(spark_config_cluster, Args)	
 		]),
     {ok, { {one_for_one, 5, 10}, Children}}.
 
