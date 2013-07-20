@@ -36,8 +36,7 @@ stop()-> ok.
 %% ===================================================================
 %% Supervisor callbacks
 %% ===================================================================
-init([])->
-	init([]);
+init([]) -> init([]);
 init(Args) ->
 	Apps = [syntax_tools, 
 			compiler, 
@@ -52,9 +51,7 @@ init(Args) ->
 			os_mon,
 			sasl,
 			mnesia],
-    lists:map(fun(App) -> 
-    			ok = app_util:start_app(App)
-    		  end, Apps),		
+	app_util:start_apps(Apps),		
 	Children = lists:flatten([
 		?CHILD(spark_config_cluster, Args)	
 		]),
